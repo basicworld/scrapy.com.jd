@@ -8,7 +8,16 @@
 import scrapy
 
 
-class ChaoshiItem(scrapy.Item):
+class ChaoshiCategoryItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    cateUrl = scrapy.Field()  # 分类的url
+    cateName = scrapy.Field()  # 分类名称 存储二级分类
+
+
+class ChaoshiGoodsItem(scrapy.Item):
+    # define the fields for your item here like:
+    goodsName = scrapy.Field()
+    goodsId = scrapy.Field()
+    goodsUrl = scrapy.Field()
+    goodsPrice = scrapy.Field()
+    goodsPicUrl = scrapy.Field()

@@ -2,8 +2,8 @@
 import sys
 import os
 from os.path import dirname
-path = dirname(dirname(os.path.abspath(os.path.dirname(__file__))))
-sys.path.append(path)
+SPIDERPATH = dirname(dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(SPIDERPATH)
 # Scrapy settings for chaoshi project
 #
 # For simplicity, this file contains only settings considered important or
@@ -75,9 +75,9 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'chaoshi.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'chaoshi.pipelines.ChaoshiCategoryPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -85,10 +85,10 @@ DEFAULT_REQUEST_HEADERS = {
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+# AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
 #AUTOTHROTTLE_DEBUG = False
 
