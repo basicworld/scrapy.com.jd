@@ -23,8 +23,11 @@ class ChaoshispiderSpider(scrapy.Spider):
         for sub_cate2_href in response.xpath('//div[@class="sub-cate2"]/a'):
             # item = ChaoshiCategoryItem()
             # item['cateUrl'] = sub_cate2_href.xpath('@href').extract_first()
-            # item['cateName'] = sub_cate2_href.xpath('text()').extract_first()
+            cateName = sub_cate2_href.xpath('text()').extract_first()
+            # print cateName
             url = sub_cate2_href.xpath('@href').extract_first()
+            url = response.urljoin(url)
+            print(url)
             # yield item
             yield scrapy.Request(url, callback=self.parseCategory)
 
@@ -32,4 +35,19 @@ class ChaoshispiderSpider(scrapy.Spider):
         """
         # 遍历每个二级目录下的商品
         """
-        pass
+        xpathDict = {
+            'goodsName': 'div[@class="p-name p-name-type-2"]/a/@title',
+            'goodsId': 'div[@class="p-name p-name-type-2"]/a/i[@class="promo-words"]/@id',
+            'goodsUrl': 'div[@class="p-name p-name-type-2"]/a/@href',
+            'goodsPrice': 'div[@class="p-price"]/strong/i/text()',
+            'goodsPicUrl': 'div[@class="p-img"]/a/@href',
+        }
+        for sel in response.xpath('//li[@class="gl-item"]/div'):
+            item = ChaoshiGoodsItem()
+            for itemName, itemXpath in xpathDict.items():
+                item[itemName] = sel.xpath(itemXpath).extract_first()
+            yield item
+
+        url = response.url
+        headers = response.headers
+        headers['Referer'] = url
